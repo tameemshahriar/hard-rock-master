@@ -3,10 +3,22 @@ const searchSongs = async() =>{
     // console.log(searchText);
    const url = `https://api.lyrics.ovh/suggest/${searchText}`
     // console.log(url);
+
+    try {
     const res = await fetch(url); //fetch (url) 
     const data = await res.json();//.then(res => res.json())
     // .then(data => console.log(data))
     displaySongs(data.data);//.then(data => displaySongs(data.data))
+
+    }
+    catch(error){
+        displayError('Please try again after sometimes!');
+    }
+
+   /*  fetch (url)
+    .then(res => res.json())
+    .then(data => displaySongs(data.data))
+    .catch(error => displayError('Sorry! Something went wrong! Please try again later')); */
 
 }
 
@@ -42,9 +54,15 @@ const getLyric = (artist,title) => {
     .then(res => res.json())
     // .then(data => console.log(data))
     .then(data => displayLyrics(data.lyrics))
+    .catch(error => displayError('Sorry! Something went wrong! Please try again later'));
 }
 
 const displayLyrics = lyrics => {
     const lyricsDiv = document.getElementById('song-lyrics');
     lyricsDiv.innerText = lyrics;
-} 
+}
+
+const displayError = error => {
+    const errorTag = document.getElementById('error-message');
+    errorTag.innerText = error;
+}
